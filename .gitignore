@@ -86,6 +86,6 @@ nbbuild/
 dist/
 nbdist/
 .nb-gradle/
-/TAMPartner.iml
+/Eno-Twitter-Bot.iml
 /nb-configuration.xml
 /.idea/

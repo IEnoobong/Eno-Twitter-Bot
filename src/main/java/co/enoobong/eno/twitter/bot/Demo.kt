@@ -1,17 +1,12 @@
 package co.enoobong.eno.twitter.bot
 
-
-
-
-
-import twitter4j.Logger
 import twitter4j.StallWarning
 import twitter4j.Status
 import twitter4j.StatusDeletionNotice
 import twitter4j.StatusListener
+import twitter4j.TwitterFactory
+import twitter4j.TwitterStream
 import twitter4j.TwitterStreamFactory
-import twitter4j.UserStreamListener
-
 
 /**
  * @author Ibanga Enoobong I
@@ -20,7 +15,8 @@ import twitter4j.UserStreamListener
 object Demo {
 
         private val twitterStream = TwitterStreamFactory().instance
-        @JvmStatic
+    private val twitter = TwitterFactory.getSingleton()
+    @JvmStatic
         fun main(args: Array<String>) {
 
             val listener = object : StatusListener {
@@ -48,9 +44,12 @@ object Demo {
                 }
             }
 
-            twitterStream.addListener(listener)
+        twitterStream.addListenerFixed(listener)
             twitterStream.sample()
 
         }
 
+    private fun TwitterStream.addListenerFixed(listener: StatusListener) {
+        Twitter4jFixer.addListener(this, listener)
+    }
 }
