@@ -17,30 +17,26 @@ import javax.servlet.annotation.WebListener
 @WebListener
 class Bot : ServletContextListener {
 
-    private lateinit var scheduler: ScheduledExecutorService
+    private val scheduler: ScheduledExecutorService by lazy {
+        Executors.newSingleThreadScheduledExecutor()
+    }
     override fun contextDestroyed(sce: ServletContextEvent?) {
         scheduler.shutdown()
     }
 
-    override fun contextInitialized(sce: ServletContextEvent?) {
+    override fun contextInitialized(sce: ServletContextEvent) {
         println("Started up!")
-        scheduler = Executors.newSingleThreadScheduledExecutor()
-        scheduler.scheduleAtFixedRate({
-            run {
-                retweetMyMentions()
-            }
-        }, 0, 5, TimeUnit.HOURS)
+        scheduler.scheduleAtFixedRate({ retweetMyMentions() }, 0, 5, TimeUnit.HOURS)
     }
 
     fun retweetMyMentions() {
         println("Started checking for mentions")
         val twitter = TwitterFactory.getSingleton()
         try {
-            twitter.timelines().mentionsTimeline.forEach {
-                if (!it.isRetweeted) {
-                    twitter.retweetStatus(it.id)
-                }
-            }
+            twitter.timelines().mentionsTimeline
+                    .asSequence()
+                    .filterNot { it.isRetweeted }
+                    .forEach { twitter.retweetStatus(it.id) }
         } catch (ex: TwitterException) {
             println("Something bad happened $ex")
         }

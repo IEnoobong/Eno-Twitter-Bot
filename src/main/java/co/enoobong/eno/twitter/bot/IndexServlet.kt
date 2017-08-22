@@ -14,17 +14,17 @@ import javax.ws.rs.core.MediaType
 @WebServlet("/")
 class IndexServlet : HttpServlet() {
 
-    override fun doGet(req: HttpServletRequest?, resp: HttpServletResponse?) {
-        println("IndexServlet::class.java.simpleName called")
-        val html = "<html>\n" +
-                "\t<head>\n" +
-                "\t\t<title>Eno Twitter Bot</title>\n" +
-                "\t</head>\n" +
-                "\t<body>\n" +
-                "\t\t<h1>Demo Eno Twitter Bot!</h1>\n" +
-                "\t</body>\n" +
-                "</html>"
-        resp?.apply {
+    override fun doGet(req: HttpServletRequest, resp: HttpServletResponse) {
+        println("IndexServlet opening")
+        val html = """<html>
+                <head>
+                <title>Eno Twitter Bot</title>
+                </head>
+                <body>
+                <h1>Demo Eno Twitter Bot!</h1>
+                </body>
+                </html>"""
+        resp.apply {
             contentType = MediaType.TEXT_HTML
             resp.writer.apply {
                 println(html)
