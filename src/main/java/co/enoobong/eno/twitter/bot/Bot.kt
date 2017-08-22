@@ -1,28 +1,48 @@
 package co.enoobong.eno.twitter.bot
 
-
 import twitter4j.TwitterException
 import twitter4j.TwitterFactory
-import javax.ejb.Schedule
-import javax.ejb.Singleton
-import javax.ejb.Startup
+import java.util.concurrent.Executors
+import java.util.concurrent.ScheduledExecutorService
+import java.util.concurrent.TimeUnit
+import javax.servlet.ServletContextEvent
+import javax.servlet.ServletContextListener
+import javax.servlet.annotation.WebListener
 
 
 /**
  * @author Ibanga Enoobong I
  * @since 18-Aug-17.
  */
-@Singleton
-@Startup
-class Bot {
+@WebListener
+class Bot : ServletContextListener {
 
-    @Schedule(hour = "*/5")
+    private lateinit var scheduler: ScheduledExecutorService
+    override fun contextDestroyed(sce: ServletContextEvent?) {
+        scheduler.shutdown()
+    }
+
+    override fun contextInitialized(sce: ServletContextEvent?) {
+        println("Started up!")
+        scheduler = Executors.newSingleThreadScheduledExecutor()
+        scheduler.scheduleAtFixedRate({
+            run {
+                retweetMyMentions()
+            }
+        }, 0, 5, TimeUnit.HOURS)
+    }
+
     fun retweetMyMentions() {
+        println("Started checking for mentions")
         val twitter = TwitterFactory.getSingleton()
         try {
-            twitter.timelines().mentionsTimeline.forEach { twitter.retweetStatus(it.id) }
+            twitter.timelines().mentionsTimeline.forEach {
+                if (!it.isRetweeted) {
+                    twitter.retweetStatus(it.id)
+                }
+            }
         } catch (ex: TwitterException) {
-            ex.printStackTrace()
+            println("Something bad happened $ex")
         }
     }
 }

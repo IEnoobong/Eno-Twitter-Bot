@@ -3,14 +3,14 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>co.enoobong</groupId>
     <artifactId>Eno-Twitter-Bot</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0</version>
     <packaging>war</packaging>
+
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
-        <kotlin.version>1.1.4</kotlin.version>
-        <log.dir>${user.home}</log.dir>
+        <kotlin.version>1.1.4-2</kotlin.version>
     </properties>
     
     <developers>
@@ -32,27 +32,10 @@
             <version>7.0</version>
             <scope>provided</scope>
         </dependency>
-        <!--<dependency>-->
-            <!--<groupId>org.twitter4j</groupId>-->
-            <!--<artifactId>twitter4j-core</artifactId>-->
-            <!--<version>4.0.6</version>-->
-        <!--</dependency>-->
-        <!-- https://mvnrepository.com/artifact/org.twitter4j/twitter4j-stream -->
         <dependency>
             <groupId>org.twitter4j</groupId>
             <artifactId>twitter4j-stream</artifactId>
             <version>4.0.6</version>
-        </dependency>
-        <!-- https://mvnrepository.com/artifact/org.twitter4j/twitter4j-async -->
-        <!--<dependency>-->
-            <!--<groupId>org.twitter4j</groupId>-->
-            <!--<artifactId>twitter4j-async</artifactId>-->
-            <!--<version>4.0.6</version>-->
-        <!--</dependency>-->
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-            <version>1.7.12</version>
         </dependency>
         <dependency>
             <groupId>org.jetbrains.kotlin</groupId>
@@ -61,7 +44,7 @@
         </dependency>
         <dependency>
             <groupId>org.jetbrains.kotlin</groupId>
-            <artifactId>kotlin-test</artifactId>
+            <artifactId>kotlin-test-junit</artifactId>
             <version>${kotlin.version}</version>
             <scope>test</scope>
         </dependency>
@@ -94,11 +77,33 @@
                 </configuration>
             </plugin>
             <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>appassembler-maven-plugin</artifactId>
+                <version>1.1.1</version>
+                <configuration>
+                    <assembleDirectory>target</assembleDirectory>
+                    <programs>
+                        <program>
+                            <mainClass>co.enoobong.eno.twitter.bot.Bot</mainClass>
+                            <name>worker</name>
+                        </program>
+                    </programs>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>assemble</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
                 <groupId>com.heroku.sdk</groupId>
                 <artifactId>heroku-maven-plugin</artifactId>
                 <version>1.2.0</version>
                 <configuration>
-                    <appName>design-patterns-kotlin</appName>
+                    <jdkVersion>1.8</jdkVersion>
                 </configuration>
             </plugin>
             <plugin>
