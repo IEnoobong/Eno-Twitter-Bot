@@ -16,7 +16,7 @@ Follow these steps to create
  
  If you're completely knew to heroku checkout this [Java guide](https://devcenter.heroku.com/articles/getting-started-with-java#introduction)
  
- Heroku Maven Plugin is used to deploy the application, (there are other way too) so once all is set i.e creating your app run
+ Heroku Maven Plugin is used to deploy the application, (there are other ways too) so once all is set i.e creating your app run
  * `mvn clean heroku:deploy-war`
  Voila! your app should be deployed! Now you can save your self some mundane tasks! :wink:
  
