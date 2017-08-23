@@ -32,6 +32,5 @@ class IndexServlet : HttpServlet() {
                 close()
             }
         }
-
     }
 }
