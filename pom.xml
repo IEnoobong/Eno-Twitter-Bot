@@ -82,7 +82,7 @@
                 <version>2.3</version>
                 <executions>
                     <execution>
-                        <phase>package</phase>
+                        <phase>compile</phase>
                         <goals>
                             <goal>copy</goal>
                         </goals>
