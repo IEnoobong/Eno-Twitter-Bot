@@ -91,7 +91,8 @@ class Bot : ServletContextListener {
         val twitterStream = TwitterStreamFactory().instance
         twitterStream.addListenerFixed(listener)
         val filter = FilterQuery()
-        val track = arrayOf("#forLoop", "#JavaEE8", "#Java", "#TIA", "#ThisIsAndela")
+        //TODO externalize interests
+        val track = arrayOf("#forLoop", "#Kotlin", "#JavaEE8", "#TIA", "#ThisIsAndela")
         filter.track(*track).language("en")
 
         twitterStream.filter(filter)
