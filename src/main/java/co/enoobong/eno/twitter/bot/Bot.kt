@@ -41,7 +41,7 @@ class Bot : ServletContextListener {
     override fun contextInitialized(sce: ServletContextEvent) {
         println("Started up!")
         retweetMyInterests()
-        scheduler.scheduleAtFixedRate({ retweetMyMentions() }, 0, 5, TimeUnit.HOURS)
+        scheduler.scheduleAtFixedRate({ retweetMyMentions() }, 0, 2, TimeUnit.HOURS)
     }
 
     fun retweetMyMentions() {
@@ -92,7 +92,7 @@ class Bot : ServletContextListener {
         twitterStream.addListenerFixed(listener)
         val filter = FilterQuery()
         //TODO externalize interests
-        val track = arrayOf("#forLoop", "#Kotlin", "#JavaEE8", "#TIA", "#ThisIsAndela")
+        val track = arrayOf("#forLoop", "#Kotlin", "#JavaEE8", "#ThisIsAndela")
         filter.track(*track).language("en")
 
         twitterStream.filter(filter)
