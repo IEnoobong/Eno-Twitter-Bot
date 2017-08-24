@@ -77,7 +77,6 @@ class Bot : ServletContextListener {
             }
 
             override fun onStatus(status: Status) {
-                println("**** ${status.text} ****")
                 if (!status.isRetweeted) {
                     twitter.retweetStatus(status.id)
                 }
@@ -92,7 +91,7 @@ class Bot : ServletContextListener {
         twitterStream.addListenerFixed(listener)
         val filter = FilterQuery()
         //TODO externalize interests
-        val track = arrayOf("#forLoop", "#Kotlin", "#JavaEE8", "#ThisIsAndela")
+        val track = arrayOf("#forLoopAbuja", "#Kotlin", "#JavaOne", "#JavaEE8", "#ThisIsAndela")
         filter.track(*track).language("en")
 
         twitterStream.filter(filter)
