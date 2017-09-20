@@ -40,7 +40,7 @@ class Bot : ServletContextListener {
 
     override fun contextInitialized(sce: ServletContextEvent) {
         println("Started up!")
-        retweetMyInterests()
+        //retweetMyInterests()
         scheduler.scheduleAtFixedRate({ retweetMyMentions() }, 0, 15, TimeUnit.MINUTES)
     }
 
